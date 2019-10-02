@@ -10,4 +10,4 @@ jobs:
     - stage: test 1
       script: docker run --rm $DOCKER_USERNAME/travis-ci-build-stages-demo cat hello.txt
     - stage: test 2
-    - script: bash -e travis-test-2.sh
+      script: bash -e travis-test-2.sh
