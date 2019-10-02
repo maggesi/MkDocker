@@ -1,6 +1,5 @@
 # Example from Travis documentation.
 # https://docs.travis-ci.com/user/build-stages/share-docker-image/
-# Just add a comment.
 
 dist: trusty
 
