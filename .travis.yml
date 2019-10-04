@@ -1,14 +1,11 @@
-# Example from Travis documentation
-# https://docs.travis-ci.com/user/build-stages/share-docker-image/
-
 dist: trusty
 language: minimal
 
 jobs:
   include:
-    - stage: build docker image
-      script: bash -e travis-build-image.sh
-    - stage: test 1
-      script: docker run --rm $DOCKER_USERNAME/travis-ci-build-stages-demo cat hello.txt
-    - stage: test 2
-      script: bash -e travis-test-2.sh
+    - stage: Build docker image.
+      script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - bash -e build-image.sh
+    - stage: Test docker image.
+      script: docker run --rm $DOCKER_USERNAME/hol-light cat hello.txt
