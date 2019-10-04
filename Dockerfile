@@ -8,12 +8,11 @@
 ### Install the needed Debian packages.
 ### ---------------------------------------------------------------------------
 
-FROM ocaml/opam2:debian-stable
+FROM ocaml/opam2:4.07
 
 USER root
 
-RUN apt-get update && \
-    apt-get -y install build-essential git curl make m4 rlwrap screen tmux
+RUN apt-get -y install build-essential git curl make m4 rlwrap screen tmux
 
 ### ---------------------------------------------------------------------------
 ### Prepare a working directory for the user.
@@ -30,13 +29,8 @@ RUN mkdir -p /home/opam/work
 ###     dependencies are already present in this layer.
 ### ---------------------------------------------------------------------------
 
-WORKDIR /home/opam/opam-repository
-
-RUN git pull && \
-    opam update && \
-    opam switch create hol-4.07.1 ocaml-base-compiler.4.07.1 && \
-    eval `opam config env` && \
-    opam install num camlp5 merlin elpi
+RUN eval `opam config env` \
+ && opam install num camlp5 merlin elpi
 
 ### ---------------------------------------------------------------------------
 ### Install Dmtcp.
@@ -58,14 +52,6 @@ WORKDIR /home/opam/src/dmtcp
 RUN make install
 
 USER opam
-
-### ---------------------------------------------------------------------------
-### Install the development version of Elpi.
-### ---------------------------------------------------------------------------
-
-RUN opam pin add elpi git+https://github.com/lpcic/elpi && \
-    opam update && \
-    opam install elpi
 
 ### ---------------------------------------------------------------------------
 ### Startup configuration.
