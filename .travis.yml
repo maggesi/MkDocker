@@ -15,10 +15,22 @@ jobs:
       - docker pull "$DOCKER_REPOSITORY:$TAG" || true
       - docker pull "$DOCKER_REPOSITORY:latest" || true
       - TAG=environment
-      - cd images/$TAG
+      - cd ~/images/$TAG
         && docker build --cache-from "$DOCKER_REPOSITORY:$TAG" -t $TAG .
         && docker tag $TAG "$DOCKER_REPOSITORY:$TAG"
         && docker push "$DOCKER_REPOSITORY:$TAG"
-        && if [ "$DOCKER_IMAGE_BRANCH" == "$master" ]; then docker push "$DOCKER_REPOSITORY:latest"; fi
+        && TAG=hol
+        && cd ~/images/$TAG
+        && docker build --cache-from "$DOCKER_REPOSITORY:$TAG" -t $TAG .
+        && docker tag $TAG "$DOCKER_REPOSITORY:$TAG"
+        && docker push "$DOCKER_REPOSITORY:$TAG"
+        && if [ "$DOCKER_IMAGE_BRANCH" == "$master" ]; then docker tag $TAG "$DOCKER_REPOSITORY:latest"; docker push "$DOCKER_REPOSITORY:latest"; fi
     - stage: Test docker image
-      script: docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
+      - script:
+        - TAG=environment
+        - echo "Testing $DOCKER_REPOSITORY:$TAG"
+        - docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
+      - script:
+        - TAG=hol
+        - echo "Testing $DOCKER_REPOSITORY:$TAG"
+        - docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
