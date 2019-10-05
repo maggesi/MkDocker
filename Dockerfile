@@ -60,7 +60,7 @@ RUN mkdir -p /home/opam/src/hol-light \
  && cd /home/opam/src/hol-light \
  && curl -sL https://github.com/jrh13/hol-light/archive/$HOL_LIGHT_VERSION.tar.gz | \
     tar xz --strip-components=1 \
- && eval `opam config env`
+ && eval `opam config env` \
  && make
 
 ### ---------------------------------------------------------------------------
