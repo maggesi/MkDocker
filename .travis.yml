@@ -26,11 +26,11 @@ jobs:
           && docker push "$DOCKER_REPOSITORY:$TAG"
           && if [ "$DOCKER_IMAGE_BRANCH" == "$master" ]; then docker tag $TAG "$DOCKER_REPOSITORY:latest"; docker push "$DOCKER_REPOSITORY:latest"; fi
     - stage: Test docker image
-        - script:
-            - TAG=environment
-            - echo "Testing $DOCKER_REPOSITORY:$TAG"
-            - docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
-        - script:
-            - TAG=hol
-            - echo "Testing $DOCKER_REPOSITORY:$TAG"
-            - docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
+      script:
+        - TAG=environment
+        - echo "Testing $DOCKER_REPOSITORY:$TAG"
+        - docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
+      script:
+        - TAG=hol
+        - echo "Testing $DOCKER_REPOSITORY:$TAG"
+        - docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
