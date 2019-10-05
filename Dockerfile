@@ -12,7 +12,7 @@ FROM ocaml/opam2:alpine-3.8-ocaml-4.07
 
 USER root
 
-RUN apk add m4 curl screen && rm -rf /var/cache/apk/*
+RUN apk add m4 linux-libc-dev curl screen && rm -rf /var/cache/apk/*
 
 
 ### ---------------------------------------------------------------------------
