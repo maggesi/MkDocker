@@ -1,18 +1,18 @@
 ### ===========================================================================
 ### Container for running HOL Light.
 ###
-### Debian image with OCaml, elpi, dmtcp and other tools installed.
+### Alpine image with OCaml, elpi, dmtcp and other tools installed.
 ### ===========================================================================
 
 ### ---------------------------------------------------------------------------
 ### Install the needed Debian packages.
 ### ---------------------------------------------------------------------------
 
-FROM ocaml/opam2:4.07
+FROM ocaml/opam2:alpine-3.8-ocaml-4.07
 
 USER root
 
-RUN apt-get -y install m4 git curl rlwrap screen
+RUN apk install curl rlwrap screen
 
 ### ---------------------------------------------------------------------------
 ### Prepare a working directory for the user.
