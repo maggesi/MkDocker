@@ -6,19 +6,20 @@ env:
   global:
     - VERSION="2019-10-04"
     - DOCKER_REPOSITORY="$DOCKER_USERNAME/hol-light-environment"
-    - DOCKER_IMAGE_LATEST="$DOCKER_REPOSITORY:latest"
-    - DOCKER_IMAGE_BRANCH="$DOCKER_REPOSITORY:$TRAVIS_BRANCH"
+  matrix:
+    - TAG=environment
 
 jobs:
   include:
-    - stage: Build docker image
+    - stage: Build docker images
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker pull "$DOCKER_IMAGE_LATEST" || true
-      - docker pull "$DOCKER_IMAGE_BRANCH" || true
-      - docker build --cache-from "$DOCKER_IMAGE_LATEST" --cache-from "$DOCKER_IMAGE_BRANCH" -t hol-light-environment .
-        && docker tag hol-light-environment "$DOCKER_IMAGE_BRANCH"
-        && docker push "$DOCKER_IMAGE_BRANCH"
-        && if [ "$DOCKER_IMAGE_BRANCH" == "$master" ]; then docker push "$DOCKER_IMAGE_LATEST"; fi
+      - docker pull "$DOCKER_REPOSITORY:$TAG" || true
+      - docker pull "$DOCKER_REPOSITORY:latest" || true
+      - cd images/$TAG
+        && docker build --cache-from "$DOCKER_REPOSITORY:$TAG" -t $TAG .
+        && docker tag $TAG "$DOCKER_REPOSITORY:$TAG"
+        && docker push "$DOCKER_REPOSITORY:$TAG"
+        && if [ "$DOCKER_IMAGE_BRANCH" == "$master" ]; then docker push "$DOCKER_REPOSITORY:latest"; fi
     - stage: Test docker image
-      script: docker run --rm "$DOCKER_IMAGE_BRANCH" ocamlc -version
+      script: docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
