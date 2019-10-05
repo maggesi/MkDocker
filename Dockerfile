@@ -12,7 +12,7 @@ FROM ocaml/opam2:alpine-3.8-ocaml-4.07
 
 USER root
 
-RUN apk add curl rlwrap dmtcp screen && rm -rf /var/cache/apk/*
+RUN apk add curl screen && rm -rf /var/cache/apk/*
 
 
 ### ---------------------------------------------------------------------------
