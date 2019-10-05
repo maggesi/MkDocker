@@ -58,7 +58,7 @@ ARG HOL_LIGHT_VERSION=d3f8f474ff1cb4f549d51bed902700598d9c4274
 
 RUN mkdir -p /home/opam/src \
  && cd /home/opam/src/hol-light \
- && git clone /home/opam/src
+ && git clone /home/opam/src \
  && curl -sL https://github.com/jrh13/hol-light/archive/$HOL_LIGHT_VERSION.tar.gz | \
     tar xz --strip-components=1 \
  && make
