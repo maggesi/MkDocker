@@ -12,7 +12,8 @@ FROM ocaml/opam2:alpine-3.8-ocaml-4.07
 
 USER root
 
-RUN apk install curl rlwrap screen
+RUN apk add curl rlwrap dmtcp screen && rm -rf /var/cache/apk/*
+
 
 ### ---------------------------------------------------------------------------
 ### Prepare a working directory for the user.
