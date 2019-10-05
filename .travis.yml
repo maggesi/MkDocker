@@ -1,24 +1,14 @@
 dist: trusty
 language: minimal
 
-cache:
-- bundler
-- directories:
-  - "$HOME/docker"
-
 jobs:
   include:
     - stage: Build docker image.
-      before_install:
-      # Load cached docker images
-      - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - bash -e build-image.sh
-      before_cache:
-      # Save tagged docker images
-      - >
-        mkdir -p $HOME/docker && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
-        | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
+      - docker pull $DOCKER_USERNAME/hol-light-environment:latest
+      - docker build --cache-from $DOCKER_USERNAME/hol-light-environment:latest -t hol-light-environment .
+      - docker tag hol-light-environment "$DOCKER_USERNAME"/hol-light-environment
+      - docker push "$DOCKER_USERNAME"/hol-light-environment
     - stage: Test docker image.
       script: docker run --rm $DOCKER_USERNAME/hol-light-environment cat hello.txt
