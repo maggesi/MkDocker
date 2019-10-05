@@ -1,14 +1,18 @@
 dist: trusty
+
 language: minimal
+
+env:
+  - DOCKER_IMAGE="$DOCKER_USERNAME/hol-light-environment:latest"
 
 jobs:
   include:
     - stage: Build docker image.
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker pull $DOCKER_USERNAME/hol-light-environment:latest || true
-      - docker build --cache-from $DOCKER_USERNAME/hol-light-environment:latest -t hol-light-environment .
-      - docker tag hol-light-environment "$DOCKER_USERNAME"/hol-light-environment
-      - docker push "$DOCKER_USERNAME"/hol-light-environment
+      - docker pull "$DOCKER_IMAGE" || true
+      - docker build --cache-from "$DOCKER_IMAGE" -t hol-light-environment .
+      - docker tag hol-light-environment "$DOCKER_IMAGE"
+      - docker push "$DOCKER_IMAGE"
     - stage: Test docker image.
-      script: docker run --rm $DOCKER_USERNAME/hol-light-environment cat hello.txt
+      script: docker run --rm "$DOCKER_IMAGE" cat hello.txt
