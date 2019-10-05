@@ -68,5 +68,3 @@ RUN mkdir -p /home/opam/src/hol-light \
 ### ---------------------------------------------------------------------------
 
 WORKDIR /home/opam/work
-
-RUN echo "Hello, Docker!" > hello.txt
