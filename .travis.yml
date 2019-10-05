@@ -14,13 +14,14 @@ jobs:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker pull "$DOCKER_REPOSITORY:$TAG" || true
         - docker pull "$DOCKER_REPOSITORY:latest" || true
+        - TOPDIR=$(pwd)
         - TAG=environment
-        - cd ~/images/$TAG
+        - cd $TOPDIR/$TAG
           && docker build --cache-from "$DOCKER_REPOSITORY:$TAG" -t $TAG .
           && docker tag $TAG "$DOCKER_REPOSITORY:$TAG"
           && docker push "$DOCKER_REPOSITORY:$TAG"
           && TAG=hol
-          && cd ~/images/$TAG
+          && cd $TOPDIR/$TAG
           && docker build --cache-from "$DOCKER_REPOSITORY:$TAG" -t $TAG .
           && docker tag $TAG "$DOCKER_REPOSITORY:$TAG"
           && docker push "$DOCKER_REPOSITORY:$TAG"
