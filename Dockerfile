@@ -12,7 +12,7 @@ FROM ocaml/opam2:4.07
 
 USER root
 
-RUN apt-get -y install git curl make m4 rlwrap screen
+RUN apt-get -y install m4 git curl rlwrap screen
 
 ### ---------------------------------------------------------------------------
 ### Prepare a working directory for the user.
@@ -48,6 +48,20 @@ RUN mkdir -p /home/opam/src/dmtcp \
  && sudo make install \
  && cd /home/opam \
  && rm -rf src
+
+### ---------------------------------------------------------------------------
+### Install HOL Light.
+### Version 2019-09-30
+### ---------------------------------------------------------------------------
+
+ARG HOL_LIGHT_VERSION=d3f8f474ff1cb4f549d51bed902700598d9c4274
+
+RUN mkdir -p /home/opam/src/hol-light \
+ && cd /home/opam/src/hol-light \
+ && curl -sL https://github.com/jrh13/hol-light/archive/$HOL_LIGHT_VERSION.tar.gz | \
+    tar xz --strip-components=1 \
+ && eval `opam config env` \
+ && make
 
 ### ---------------------------------------------------------------------------
 ### Startup configuration.
