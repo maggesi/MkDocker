@@ -34,10 +34,10 @@ RUN eval `opam config env` \
 
 ### ---------------------------------------------------------------------------
 ### Install Dmtcp.
-### Version 2019-04-22
+### Version 2019-09-21
 ### ---------------------------------------------------------------------------
 
-ARG DMTCP_VERSION=cfe168e2539b60e29bbac27da9a8b78b77add2a6
+ARG DMTCP_VERSION=8c20abe3d8b90c22a5145c4364fac4094d10d9cf
 
 RUN mkdir -p /home/opam/src/dmtcp \
  && cd /home/opam/src/dmtcp \
