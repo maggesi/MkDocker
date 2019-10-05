@@ -3,10 +3,11 @@ dist: trusty
 language: minimal
 
 env:
-  - VERSION="2019-10-04"
-  - DOCKER_REPOSITORY="$DOCKER_USERNAME/hol-light-environment"
-  - DOCKER_IMAGE_LATEST="$DOCKER_REPOSITORY:latest"
-  - DOCKER_IMAGE_BRANCH="$DOCKER_REPOSITORY:$TRAVIS_BRANCH"
+  global:
+    - VERSION="2019-10-04"
+    - DOCKER_REPOSITORY="$DOCKER_USERNAME/hol-light-environment"
+    - DOCKER_IMAGE_LATEST="$DOCKER_REPOSITORY:latest"
+    - DOCKER_IMAGE_BRANCH="$DOCKER_REPOSITORY:$TRAVIS_BRANCH"
 
 jobs:
   include:
