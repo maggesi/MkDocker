@@ -1,1 +1,0 @@
-docker run --rm $DOCKER_USERNAME/travis-ci-build-stages-demo cat hello.txt
