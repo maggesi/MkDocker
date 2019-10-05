@@ -3,16 +3,21 @@ dist: trusty
 language: minimal
 
 env:
-  - DOCKER_IMAGE="$DOCKER_USERNAME/hol-light-environment:latest"
+  global:
+    - VERSION="2019-10-04"
+    - DOCKER_REPOSITORY="$DOCKER_USERNAME/hol-light-environment"
+    - DOCKER_IMAGE_LATEST="$DOCKER_REPOSITORY:latest"
+    - DOCKER_IMAGE_BRANCH="$DOCKER_REPOSITORY:$TRAVIS_BRANCH"
 
 jobs:
   include:
     - stage: Build docker image
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker pull "$DOCKER_IMAGE" || true
-      -    docker build --cache-from "$DOCKER_IMAGE" -t hol-light-environment .
-        && docker tag hol-light-environment "$DOCKER_IMAGE"
-        && docker push "$DOCKER_IMAGE"
+      - docker pull "$DOCKER_IMAGE_LATEST" || true
+      - docker pull "$DOCKER_IMAGE_BRANCH" || true
+      - docker build --cache-from "$DOCKER_IMAGE_LATEST" --cache-from "$DOCKER_IMAGE_BRANCH" -t hol-light-environment .
+        && docker tag hol-light-environment "$DOCKER_IMAGE_BRANCH"
+        && docker push "$DOCKER_IMAGE_BRANCH"
     - stage: Test docker image
-      script: docker run --rm "$DOCKER_IMAGE" ocamlc -version
+      script: docker run --rm "$DOCKER_IMAGE_BRANCH" ocamlc -version
