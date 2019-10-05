@@ -12,7 +12,7 @@ FROM ocaml/opam2:4.07
 
 USER root
 
-RUN apt-get -y install git curl make m4 rlwrap screen
+RUN apt-get -y install git curl rlwrap screen
 
 ### ---------------------------------------------------------------------------
 ### Prepare a working directory for the user.
