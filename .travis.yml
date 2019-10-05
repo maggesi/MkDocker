@@ -15,4 +15,4 @@ jobs:
           && docker tag hol-light-environment "$DOCKER_IMAGE"
           && docker push "$DOCKER_IMAGE"
     - stage: Test docker image
-      script: docker run --rm "$DOCKER_IMAGE" cat hello.txt
+      script: docker run --rm "$DOCKER_IMAGE" ocamlc -version
