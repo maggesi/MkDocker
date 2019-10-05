@@ -19,5 +19,6 @@ jobs:
       - docker build --cache-from "$DOCKER_IMAGE_LATEST" --cache-from "$DOCKER_IMAGE_BRANCH" -t hol-light-environment .
         && docker tag hol-light-environment "$DOCKER_IMAGE_BRANCH"
         && docker push "$DOCKER_IMAGE_BRANCH"
+        && if [ "$DOCKER_IMAGE_BRANCH" == "$master" ]; then docker push "$DOCKER_IMAGE_LATEST"; fi
     - stage: Test docker image
       script: docker run --rm "$DOCKER_IMAGE_BRANCH" ocamlc -version
