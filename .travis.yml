@@ -16,9 +16,6 @@ jobs:
       script:
         -    export TAG=environment && ./build-image.sh
           && export TAG=hol-light && ./build-image.sh
-      deploy:
-        - docker push "$DOCKER_REPOSITORY:environment"
-        - docker push "$DOCKER_REPOSITORY:hol-light"
         - if [ "$DOCKER_IMAGE_BRANCH" == "$master" ];
           then
             docker tag hol-light "$DOCKER_REPOSITORY:latest";

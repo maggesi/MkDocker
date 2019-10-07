@@ -11,3 +11,4 @@ cd $TOPDIR/images/$TAG
 docker pull "$IMAGE" || true
 docker build --cache-from "$IMAGE" -t $TAG .
 docker tag $TAG "$IMAGE"
+docker push "$IMAGE"
