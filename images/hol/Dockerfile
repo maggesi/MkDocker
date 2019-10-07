@@ -2,9 +2,10 @@
 ### Container for running HOL Light.
 ###
 ### Nix on Alpine image with OCaml, elpi, dmtcp and other tools installed.
+### Version with HOL Light installed.
 ### ===========================================================================
 
-FROM maggesi/hol-light-environment:environment
+FROM maggesi/hol-light:environment
 
 USER root
 

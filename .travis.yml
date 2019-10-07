@@ -5,33 +5,31 @@ language: minimal
 env:
   global:
     - VERSION="2019-10-04"
-    - DOCKER_REPOSITORY="$DOCKER_USERNAME/hol-light-environment"
+    - DOCKER_REPOSITORY="$DOCKER_USERNAME/hol-light"
 
 jobs:
   include:
     - stage: Build docker images
-      script:
+      before_script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker pull "$DOCKER_REPOSITORY:$TAG" || true
-        - docker pull "$DOCKER_REPOSITORY:latest" || true
-        - TOPDIR=$(pwd)
-        - TAG=environment
-        - cd $TOPDIR/images/$TAG
-          && docker build --cache-from "$DOCKER_REPOSITORY:$TAG" -t $TAG .
-          && docker tag $TAG "$DOCKER_REPOSITORY:$TAG"
-          && docker push "$DOCKER_REPOSITORY:$TAG"
-          && TAG=hol
-          && cd $TOPDIR/images/$TAG
-          && docker build --cache-from "$DOCKER_REPOSITORY:$TAG" -t $TAG .
-          && docker tag $TAG "$DOCKER_REPOSITORY:$TAG"
-          && docker push "$DOCKER_REPOSITORY:$TAG"
-          && if [ "$DOCKER_IMAGE_BRANCH" == "$master" ]; then docker tag $TAG "$DOCKER_REPOSITORY:latest"; docker push "$DOCKER_REPOSITORY:latest"; fi
+        - export TOPDIR=$(pwd)
+      script:
+        -    export TAG=environment && ./build-image.sh
+          && export TAG=hol-light && ./build-image.sh
+      deploy:
+        - docker push "$DOCKER_REPOSITORY:environment"
+        - docker push "$DOCKER_REPOSITORY:hol-light"
+        - if [ "$DOCKER_IMAGE_BRANCH" == "$master" ];
+          then
+            docker tag hol-light "$DOCKER_REPOSITORY:latest";
+            docker push "$DOCKER_REPOSITORY:latest";
+          fi
     - stage: Test docker image
       script:
         - TAG=environment
         - echo "Testing $DOCKER_REPOSITORY:$TAG"
         - docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
       script:
-        - TAG=hol
+        - TAG=hol-light
         - echo "Testing $DOCKER_REPOSITORY:$TAG"
         - docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
