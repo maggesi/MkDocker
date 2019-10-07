@@ -16,8 +16,8 @@ jobs:
       script:
         - ls -l
         - cat "$TOPDIR/build-image.sh"
-        -    export TAG=environment && sh -c "$TOPDIR/build-image.sh"
-          && export TAG=hol-light && sh -c "$TOPDIR/build-image.sh"
+        -    export TAG=environment && bash -e "$TOPDIR/build-image.sh"
+          && export TAG=hol-light && bash -e "$TOPDIR/build-image.sh"
         - if [ "$DOCKER_IMAGE_BRANCH" == "$master" ];
           then
             docker tag hol-light "$DOCKER_REPOSITORY:latest";
