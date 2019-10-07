@@ -14,8 +14,8 @@ jobs:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - export TOPDIR=$(pwd)
       script:
-        -    export TAG=environment && sh -c ./build-image.sh
-          && export TAG=hol-light && sh -c ./build-image.sh
+        -    export TAG=environment && sh -c "$TOPDIR/build-image.sh"
+          && export TAG=hol-light && sh -c "$TOPDIR/build-image.sh"
         - if [ "$DOCKER_IMAGE_BRANCH" == "$master" ];
           then
             docker tag hol-light "$DOCKER_REPOSITORY:latest";
