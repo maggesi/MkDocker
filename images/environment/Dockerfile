@@ -10,9 +10,9 @@ USER root
 
 # Add normal user "worker" and prepare a directory /home/worker/work
 # Then install HOL Light and dependencies using Nix
-RUN addgroup -S workgroup
- && adduser -S worker -G workgroup
- && mkdir /home/worker/work
+RUN addgroup -S workgroup \
+ && adduser -S worker -G workgroup \
+ && mkdir /home/worker/work \
  && nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs \
  && nix-channel --update \
  && nix-env -iA \
