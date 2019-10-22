@@ -37,14 +37,14 @@ jobs:
           else
             export BRANCH="$TRAVIS_PULL_REQUEST_BRANCH";
           fi
-        echo "Branch is $BRANCH"
+          echo "Branch is $BRANCH"
         - if [ "$BRANCH" == "master" ];
           then
-            echo "Tag the image";
-            docker tag hol-light "$DOCKER_REPOSITORY:latest";
-            echo "Push the image";
-            docker push "$DOCKER_REPOSITORY:latest";
-            echo "New latest image sent";
+            echo "Tag the image"
+            && docker tag hol-light "$DOCKER_REPOSITORY:latest"
+            && echo "Push the image"
+            && docker push "$DOCKER_REPOSITORY:latest"
+            && echo "New latest image sent";
           else
             echo "Do not send new latest image";
           fi
