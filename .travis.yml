@@ -20,8 +20,16 @@ jobs:
       before_script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - export TOPDIR=$(pwd)
+      script: bash -e "$TOPDIR/build-image.sh"
+     - stage: Test docker images
+      env:
+        include:
+          - TAG=environment
+          - TAG=hol-light
       script:
-        - bash -e "$TOPDIR/build-image.sh"
+        - echo "Testing $DOCKER_REPOSITORY:$TAG"
+        - docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
+        - echo "Push the new image"
         - echo "$TRAVIS_BRANCH"
         - echo "$master"
         - if [ "$TRAVIS_BRANCH" == "$master" ];
@@ -32,11 +40,3 @@ jobs:
           else
             echo "Do not send new latest image"
           fi
-     - stage: Test docker images
-      env:
-        include:
-          - TAG=environment
-          - TAG=hol-light
-      script:
-        - echo "Testing $DOCKER_REPOSITORY:$TAG"
-        - docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
