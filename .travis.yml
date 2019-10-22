@@ -30,11 +30,12 @@ jobs:
         - echo "Testing $DOCKER_REPOSITORY:$TAG"
         - docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
         - echo "Push the new image"
+        - env
         - if [ "$TRAVIS_BRANCH" == "master" ];
           then
-            echo "Tag the image"
+            echo "Tag the image";
             docker tag hol-light "$DOCKER_REPOSITORY:latest";
-            echo "Push the image"
+            echo "Push the image";
             docker push "$DOCKER_REPOSITORY:latest";
             echo "New latest image sent";
           else
