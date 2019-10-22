@@ -8,6 +8,6 @@
 set -ev
 IMAGE="$DOCKER_REPOSITORY:$TAG"
 cd $TOPDIR/images/$TAG
-docker pull "$IMAGE" || true
+docker pull "$IMAGE" || true    # Use cache if one image already exists
 docker build --cache-from "$IMAGE" --tag "$IMAGE" .
 docker push "$IMAGE"
