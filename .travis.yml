@@ -32,7 +32,9 @@ jobs:
         - echo "Push the new image"
         - if [ "$TRAVIS_BRANCH" == "master" ];
           then
+            echo "Tag the image"
             docker tag hol-light "$DOCKER_REPOSITORY:latest";
+            echo "Push the image"
             docker push "$DOCKER_REPOSITORY:latest";
             echo "New latest image sent";
           else
