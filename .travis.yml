@@ -22,7 +22,7 @@ jobs:
         - export TOPDIR=$(pwd)
       script:
         - bash -e "$TOPDIR/build-image.sh"
-        - if [ "$DOCKER_IMAGE_BRANCH" == "$master" ];
+        - if [ "$TRAVIS_BRANCH" == "$master" ];
           then
             docker tag hol-light "$DOCKER_REPOSITORY:latest";
             docker push "$DOCKER_REPOSITORY:latest";
