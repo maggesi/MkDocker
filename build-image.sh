@@ -8,12 +8,7 @@
 set -ev
 IMAGE="$DOCKER_REPOSITORY:$TAG"
 cd $TOPDIR/images/$TAG
-<<<<<<< HEAD
 docker pull "$IMAGE" || true    # Use cache if one image already exists
-docker build --cache-from "$IMAGE" --tag "$IMAGE" .
-=======
-docker pull "$IMAGE" || true
 docker build --cache-from "$IMAGE" -t $TAG .
 docker tag $TAG "$IMAGE"
->>>>>>> parent of 043e5eb... Collapse two docker commands in one.
 docker push "$IMAGE"
