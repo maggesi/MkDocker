@@ -27,7 +27,7 @@ jobs:
             docker tag hol-light "$DOCKER_REPOSITORY:latest";
             docker push "$DOCKER_REPOSITORY:latest";
           fi
-    - stage: Test docker image
+     - stage: Test docker images
       env:
         include:
           - TAG=environment
