@@ -9,6 +9,5 @@ set -ev
 IMAGE="$DOCKER_REPOSITORY:$TAG"
 cd $TOPDIR/images/$TAG
 docker pull "$IMAGE" || true
-docker build --cache-from "$IMAGE" -t $TAG .
-docker tag $TAG "$IMAGE"
+docker build --cache-from "$IMAGE" --tag "$IMAGE" .
 docker push "$IMAGE"
