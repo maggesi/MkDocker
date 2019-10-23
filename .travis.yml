@@ -33,7 +33,6 @@ jobs:
         - if [ -z "$BRANCH" ]; then export BRANCH="$TRAVIS_BRANCH"; fi
         - echo "Branch is $BRANCH"
         - docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
-        - docker tag "$DOCKER_REPOSITORY:$TAG" "$DOCKER_REPOSITORY:latest"
         - if [ "$BRANCH" == "master" -a "$TAG" == "hol_light" ];
           then
             docker tag "$DOCKER_REPOSITORY:$TAG" "$DOCKER_REPOSITORY:latest"
