@@ -9,9 +9,9 @@ set -ev
 
 function setup_environment () {
     echo "Setup environment"
-    IMAGE="$DOCKER_REPOSITORY:$TAG-$BRANCH"
     export BRANCH="$TRAVIS_PULL_REQUEST_BRANCH"
     if [ -z "$BRANCH" ]; then export BRANCH="$TRAVIS_BRANCH"; fi
+    IMAGE="$DOCKER_REPOSITORY:$TAG-$BRANCH"
     echo "Branch is $BRANCH.  Tag is $TAG.  Image is $IMAGE"
 }
 
