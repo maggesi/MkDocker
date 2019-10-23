@@ -33,10 +33,10 @@ jobs:
         - if [ -z "$BRANCH" ]; then export BRANCH="$TRAVIS_BRANCH"; fi
         - echo "Branch is $BRANCH"
         - docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
-        - docker tag hol-light "$DOCKER_REPOSITORY:latest"
-        - if [ "$BRANCH" == "master" ];
+        - docker tag "hol-light:$TAG" "$DOCKER_REPOSITORY:latest"
+        - if [ "$BRANCH" == "master" -a "$TAG" == "hol_light" ];
           then
-            docker tag hol-light "$DOCKER_REPOSITORY:latest"
+            docker tag "hol-light:$TAG" "$DOCKER_REPOSITORY:latest"
             && docker push "$DOCKER_REPOSITORY:latest"
             && echo "New latest image sent";
           else
