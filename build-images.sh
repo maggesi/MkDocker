@@ -17,6 +17,7 @@ function setup_environment () {
 
 function build_image () {
     echo 'Build image'
+    echo "From $(pwd) go to $TOPDIR/images/$TAG"
     cd "$TOPDIR/images/$TAG"
     # Use cache if one image already exists
     if [ "$CACHE" = "yes" ] && [ docker pull "$IMAGE" ]
