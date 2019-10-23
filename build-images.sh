@@ -41,7 +41,7 @@ function push_image () {
 }
 
 TAG='environment'
-CACHE='yes'
+CACHE='no'
 setup_environment
 build_image
 test_image
