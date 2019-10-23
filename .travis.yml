@@ -34,11 +34,11 @@ jobs:
       before_script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       script:
         - echo "Testing $DOCKER_REPOSITORY:$TAG"
-        - export BRANCH="$TRAVIS_PULL_REQUEST_BRANCH";
+        - export BRANCH="$TRAVIS_PULL_REQUEST_BRANCH"
         - if [ -z "$BRANCH" ]; then export BRANCH="$TRAVIS_BRANCH"; fi
         - echo "Branch is $BRANCH"
         - docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
-        - if [ "$BRANCH" == "master" -a "$TAG" == "hol_light" ];
+        - if [ "$BRANCH" == "master" ] && [ "$TAG" == "hol_light" ];
           then
             docker tag "$DOCKER_REPOSITORY:$TAG" "$DOCKER_REPOSITORY:latest"
             && docker push "$DOCKER_REPOSITORY:latest"
