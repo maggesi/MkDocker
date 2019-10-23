@@ -47,7 +47,7 @@ build_image
 test_image
 push_image
 
-TAG='hol_light'
+TAG='hol-light'
 CACHE='no'
 setup_environment
 build_image
