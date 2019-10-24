@@ -34,5 +34,5 @@ push_image
 
 TAG='hol-light'
 build_image
-echo 'ARITH_RULE `2 + a = a + 2`;;' | docker run --rm "$IMAGE" hol_light
+echo 'ARITH_RULE `2 + a = a + 2`;;\n' | docker run --rm "$IMAGE" hol_light
 push_image
