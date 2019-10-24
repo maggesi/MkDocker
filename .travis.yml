@@ -8,4 +8,4 @@ env:
 
 before_script:
 
-script: bash -e "$TOPDIR/build-images.sh"
+script: bash -e ./build-images.sh
