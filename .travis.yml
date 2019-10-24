@@ -4,45 +4,8 @@ language: minimal
 
 env:
   global:
-    - VERSION="2019-10-04"
     - DOCKER_REPOSITORY="$DOCKER_USERNAME/hol-light"
 
-jobs:
-  include:
-    - stage: Single stage
-      before_script:
-        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - export TOPDIR=$(pwd)
-      script: bash -e "$TOPDIR/build-images.sh"
-    - stage: Build image "environment"
-      env: TAG=environment
-      before_script:
-        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - export TOPDIR=$(pwd)
-      script: bash -e "$TOPDIR/build-image.sh"
-    - stage: Build image "hol-light"
-      env: TAG=hol-light
-      before_script:
-        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - export TOPDIR=$(pwd)
-      script: bash -e "$TOPDIR/build-image.sh"
-    - stage: Test docker images
-      env:
-        include:
-          - TAG=environment
-          - TAG=hol-light
-      before_script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      script:
-        - echo "Testing $DOCKER_REPOSITORY:$TAG"
-        - export BRANCH="$TRAVIS_PULL_REQUEST_BRANCH"
-        - if [ -z "$BRANCH" ]; then export BRANCH="$TRAVIS_BRANCH"; fi
-        - echo "Branch is $BRANCH"
-        - docker run --rm "$DOCKER_REPOSITORY:$TAG" ocamlc -version
-        - if [ "$BRANCH" == "master" ] && [ "$TAG" == "hol_light" ];
-          then
-            docker tag "$DOCKER_REPOSITORY:$TAG" "$DOCKER_REPOSITORY:latest"
-            && docker push "$DOCKER_REPOSITORY:latest"
-            && echo "New latest image sent";
-          else
-            echo "Do not send new latest image";
-          fi
+before_script:
+
+script: bash -e ./build-images.sh

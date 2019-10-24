@@ -7,59 +7,27 @@
 
 set -ev
 
-function setup_environment () {
-    echo "Setup environment"
-    export BRANCH="$TRAVIS_PULL_REQUEST_BRANCH"
-    if [ -z "$BRANCH" ]; then export BRANCH="$TRAVIS_BRANCH"; fi
-    IMAGE="$DOCKER_REPOSITORY:$TAG-$BRANCH"
-    echo "Branch is $BRANCH.  Tag is $TAG.  Image is $IMAGE"
-}
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+export TOPDIR=$(pwd)
+export BRANCH="$TRAVIS_PULL_REQUEST_BRANCH"
+if [ -z "$BRANCH" ]; then export BRANCH="$TRAVIS_BRANCH"; fi
+echo "Branch is $BRANCH."
 
 function build_image () {
-    echo 'Build image'
-    echo "From $(pwd) go to $TOPDIR/images/$TAG"
+    IMAGE="$DOCKER_REPOSITORY:$TAG-$BRANCH"
+    echo "Tag is $TAG.  Image is $IMAGE"
     cd "$TOPDIR/images/$TAG"
-    # Use cache if one image already exists
-    if [ "$CACHE" = "yes" ] && [ docker pull "$IMAGE" ]
-    then
-        docker build --cache-from "$IMAGE" -t "$TAG" .
-    else
-        docker build -t "$TAG" .
-    fi
+    docker build -t "$TAG" .
     docker tag "$TAG" "$IMAGE"
     docker push "$IMAGE"
 }
 
-function test_image () {
-    echo "Test image"
-    docker run --rm "$IMAGE" ocamlc -version
-}
-
-function push_image () {
-    echo "Push image"
-    docker push "$IMAGE"
-}
-
 TAG='environment'
-CACHE='no'
-setup_environment
 build_image
-test_image
-push_image
+docker run --rm "$IMAGE" ocamlc -version
+docker push "$IMAGE"
 
 TAG='hol-light'
-CACHE='no'
-setup_environment
 build_image
-test_image
-push_image
-
-if [ "$BRANCH" == "master" ]
-then
-  docker tag "$IMAGE" "$DOCKER_REPOSITORY:latest"
-  docker push "$DOCKER_REPOSITORY:latest"
-  echo 'New latest image sent'
-else
-  echo 'Do not send new latest image'
-fi
-
+echo 'ARITH_RULE `2 + a = a + 2`;;' | docker run --rm "$IMAGE" hol_light
+docker push "$IMAGE"
