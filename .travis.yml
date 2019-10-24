@@ -9,6 +9,11 @@ env:
 
 jobs:
   include:
+    - stage: Single stage
+      before_script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - export TOPDIR=$(pwd)
+      script: bash -e "$TOPDIR/build-images.sh"
     - stage: Build image "environment"
       env: TAG=environment
       before_script:
