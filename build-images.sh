@@ -34,5 +34,5 @@ push_image
 
 TAG='hol-light'
 build_image
-docker run --rm -i "$IMAGE" /bin/bash -c hol_light < "$TOPDIR/test_script.ml"
+docker run --rm -i "$IMAGE" /bin/sh -c hol_light < "$TOPDIR/test_script.ml"
 push_image
