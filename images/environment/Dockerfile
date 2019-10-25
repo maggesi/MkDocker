@@ -20,7 +20,10 @@ RUN addgroup -S workgroup \
       nixpkgs.ocaml-ng.ocamlPackages_4_05.camlp5 \
       # nixpkgs.ocaml-ng.ocamlPackages_4_05.num \
       nixpkgs.ocaml-ng.ocamlPackages_4_05.elpi \
-      nixpkgs.rlwrap nixpkgs.screen nixpkgs.dmtcp \
+      nixpkgs.bash \
+      nixpkgs.rlwrap \
+      nixpkgs.dmtcp \
+      nixpkgs.screen \
  && nix-channel --remove nixpkgs \
  && nix-collect-garbage -d
 
