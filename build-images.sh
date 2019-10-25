@@ -34,5 +34,5 @@ push_image
 
 TAG='hol-light'
 build_image
-echo 'let FOO_THM = ARITH_RULE `b = 0 ==> (a + b) - a = 0`;;\nloads "update_database.ml";;\nsearch[`x = 0 ==> (x + y) - x = 0];;\nassert (length it >= 1);;\nreport "Done!";;' | docker run --rm "$IMAGE" hol_light
+echo 'let FOO_THM = ARITH_RULE `b = 0 ==> (a + b) - a = 0`;;\nloads "update_database.ml";;\nsearch[`x = 0 ==> (x + y) - x = 0];;\nassert (length it >= 1);;\nreport "Done!";;' | docker run --rm -i "$IMAGE" hol_light
 push_image
