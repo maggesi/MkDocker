@@ -3,7 +3,6 @@
 # Shell variables that need to be configured before running this script:
 # DOCKER_REPOSITOR: Name of the repository on Docker Hub
 # TOPDIR: folder containing the targets (folders containing Dockerfile)
-# TAG: the target (and docker tag), i.e., one of the subfolder of TOPDIR.
 
 set -ev
 
@@ -22,12 +21,18 @@ function build_image () {
     docker push "$IMAGE"
 }
 
+function push_image () {
+    if [ "$BRANCH" == "master" ]
+    then docker push "$IMAGE"
+    fi
+}
+
 TAG='environment'
 build_image
 docker run --rm "$IMAGE" ocamlc -version
-docker push "$IMAGE"
+push_image
 
 TAG='hol-light'
 build_image
-echo 'ARITH_RULE `2 + a = a + 2`;;' | docker run --rm "$IMAGE" hol_light
-docker push "$IMAGE"
+docker run --rm -i "$IMAGE" /bin/sh -c hol_light < "$TOPDIR/test_script.ml"
+push_image

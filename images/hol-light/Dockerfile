@@ -12,7 +12,7 @@ USER root
 # Install HOL Light and dependencies using Nix
 RUN nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs \
  && nix-channel --update \
- && nix-env -iA nixpkgs.ocaml-ng.ocamlPackages_4_07.hol_light \
+ && nix-env -iA nixpkgs.ocaml-ng.ocamlPackages_4_05.hol_light \
  && nix-channel --remove nixpkgs \
  && nix-collect-garbage -d
 

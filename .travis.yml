@@ -3,9 +3,6 @@ dist: trusty
 language: minimal
 
 env:
-  global:
-    - DOCKER_REPOSITORY="$DOCKER_USERNAME/hol-light"
-
-before_script:
+  global: DOCKER_REPOSITORY="$DOCKER_USERNAME/hol-light"
 
 script: bash -e ./build-images.sh
