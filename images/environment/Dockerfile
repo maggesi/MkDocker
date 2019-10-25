@@ -18,11 +18,12 @@ RUN addgroup -S workgroup \
  && nix-env -iA \
       nixpkgs.ocaml-ng.ocamlPackages_4_05.ocaml \
       nixpkgs.ocaml-ng.ocamlPackages_4_05.camlp5 \
-      nixpkgs.ocaml-ng.ocamlPackages_4_05.num \
-      nixpkgs.ocaml-ng.ocamlPackages_4_05.elpi \
       nixpkgs.rlwrap nixpkgs.screen nixpkgs.dmtcp \
  && nix-channel --remove nixpkgs \
  && nix-collect-garbage -d
+
+     #  nixpkgs.ocaml-ng.ocamlPackages_4_05.num \
+     #  nixpkgs.ocaml-ng.ocamlPackages_4_05.elpi \
 
 # Change user and working directory.
 USER worker
