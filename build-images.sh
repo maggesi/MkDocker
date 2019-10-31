@@ -29,6 +29,7 @@ function push_image () {
 
 TAG='environment'
 build_image
+docker tag "$TAG" "$DOCKER_REPOSITORY:environment"
 docker run --rm "$IMAGE" ocamlc -version
 push_image
 
