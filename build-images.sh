@@ -29,20 +29,9 @@ function push_image () {
 
 TAG='environment'
 build_image
-
-echo "DEBUG: Docker container list"
-docker image list
-
 docker tag "$TAG" "$DOCKER_REPOSITORY:environment"
-
-echo "DEBUG: Docker container list"
-docker image list
-
 docker run --rm "$IMAGE" ocamlc -version
 push_image
-
-echo "DEBUG: Docker container list"
-docker image list
 
 TAG='hol-light'
 build_image
