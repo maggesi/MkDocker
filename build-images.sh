@@ -33,7 +33,7 @@ build_image
 echo "DEBUG: Docker container list"
 docker image list
 
-docker tag "$TAG" "$DOCKER_USERNAME/$DOCKER_REPOSITORY:environment"
+docker tag "$TAG" "$DOCKER_REPOSITORY:environment"
 
 echo "DEBUG: Docker container list"
 docker image list
