@@ -21,6 +21,7 @@ RUN addgroup -S workgroup \
  && nix-env -iA \
       nixpkgs.ocaml-ng.ocamlPackages_4_05.ocaml \
       nixpkgs.ocaml-ng.ocamlPackages_4_05.camlp5 \
+      nixpkgs.ocaml-ng.ocamlPackages_4_05.findlib \
       nixpkgs.ocaml-ng.ocamlPackages_4_05.elpi \
       nixpkgs.bash \
       nixpkgs.rlwrap \
